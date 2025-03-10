@@ -1,0 +1,15 @@
+ea4bc82a6ad023ab7ee23ee620429895
+::res://::1739413341
+GamemodeController.gd::GDScript::-1::1738736110::0::1::::<>Node<>::
+Ground.gd::GDScript::-1::1718654794::0::1::::<>CSGBox3D<>::
+HUD.gd::GDScript::-1::1738735626::0::1::::<>CanvasLayer<>::
+icon.svg::CompressedTexture2D::8075482856373413311::1717364038::1717365783::1::::<><>::
+Interactable.gd::GDScript::-1::1737359287::0::1::::<>Area3D<>::
+interactable.tscn::PackedScene::7243361309974677217::1738736113::0::1::::<><>::res://Interactable.gd
+level.tscn::PackedScene::2188924397234343914::1738736113::0::1::::<><>::uid://d3v21w216eeyl::::res://TestTextures/Neighborhood.png<>res://GamemodeController.gd<>uid://dbg0dqq6y2ca8::::res://interactable.tscn<>res://Player/Player.gd<>res://Ground.gd<>res://HUD.gd
+::res://Models/::1737424269
+icon.svg::CompressedTexture2D::7699103733776441570::1717365783::1718654791::1::::<><>::
+::res://Player/::1737424269
+Player.gd::GDScript::-1::1737359945::0::1::::<>CharacterBody3D<>::
+::res://TestTextures/::1737424269
+Neighborhood.png::CompressedTexture2D::9169588593672019547::1717368521::1717368522::1::::<><>::

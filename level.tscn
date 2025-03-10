@@ -1,0 +1,128 @@
+[gd_scene load_steps=8 format=3 uid="uid://6gljamhhi6r3"]
+
+[ext_resource type="Texture2D" uid="uid://d3v21w216eeyl" path="res://TestTextures/Neighborhood.png" id="1_6jike"]
+[ext_resource type="Script" path="res://GamemodeController.gd" id="1_7hfye"]
+[ext_resource type="PackedScene" uid="uid://dbg0dqq6y2ca8" path="res://interactable.tscn" id="1_ejt2a"]
+[ext_resource type="Script" path="res://Ground.gd" id="2_vcjla"]
+[ext_resource type="PackedScene" uid="uid://cgu1m3068kow2" path="res://player.tscn" id="5_n6gcd"]
+[ext_resource type="Script" path="res://HUD.gd" id="6_yemgt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_785kf"]
+albedo_color = Color(0.6, 0.780392, 1, 0)
+albedo_texture = ExtResource("1_6jike")
+
+[node name="Game" type="Node"]
+script = ExtResource("1_7hfye")
+
+[node name="Neighborhood" type="Node" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Neighborhood"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 7.44236, 0)
+shadow_enabled = true
+
+[node name="Houses" type="Node" parent="Neighborhood"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Neighborhood/Houses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.64467, 1.53021, -4.37294)
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(5.55579, 2.95618, 6.10889)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Neighborhood/Houses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.58906, 1.55614, -12.6081)
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(5.55579, 2.95618, 6.10889)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Neighborhood/Houses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.76506, 1.58206, -12.2928)
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(5.55579, 2.95618, 6.10889)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Neighborhood/Houses"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.71345, 1.57899, -3.60268)
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+size = Vector3(5.55579, 2.95618, 6.10889)
+
+[node name="Interactable" parent="Neighborhood/Houses/CSGBox3D4" instance=ExtResource("1_ejt2a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.67023, -0.625465, 2.99995)
+
+[node name="Ground" type="CSGCombiner3D" parent="Neighborhood"]
+use_collision = true
+
+[node name="BasePlane" type="CSGBox3D" parent="Neighborhood/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1662, 0)
+snap = 1.0
+size = Vector3(42.9337, 2.4324, 40.9095)
+material = SubResource("StandardMaterial3D_785kf")
+script = ExtResource("2_vcjla")
+
+[node name="Sac" type="CSGCylinder3D" parent="Neighborhood/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.737733, 0.161851, 7.907)
+operation = 2
+radius = 7.81623
+height = 0.5
+metadata/_edit_group_ = true
+
+[node name="Road" type="CSGBox3D" parent="Neighborhood/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.736913, 0.161851, -9.251)
+operation = 2
+size = Vector3(5.36, 0.5, 22.07)
+metadata/_edit_group_ = true
+
+[node name="Player" parent="." instance=ExtResource("5_n6gcd")]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("6_yemgt")
+
+[node name="TrashScore" type="Label" parent="HUD"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -19.0
+offset_top = 49.0
+offset_right = 21.0
+offset_bottom = 72.0
+grow_horizontal = 2
+
+[node name="TimeRemaining" type="RichTextLabel" parent="HUD"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -79.0
+offset_top = 2.0
+offset_right = 73.0
+offset_bottom = 42.0
+grow_horizontal = 2
+
+[node name="NoiseScore" type="ProgressBar" parent="HUD"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -206.0
+offset_top = -44.0
+offset_right = -82.0
+offset_bottom = -17.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="TeamNoiseScore" type="ProgressBar" parent="HUD"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -207.0
+offset_top = -82.0
+offset_right = -42.0
+offset_bottom = -55.0
+grow_horizontal = 0
+grow_vertical = 0

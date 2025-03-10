@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbg0dqq6y2ca8"]
+
+[ext_resource type="Script" path="res://Interactable.gd" id="1_ivxy2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0u06w"]
+
+[node name="Interactable" type="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0048136, 0.00593305, 1.00643)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_ivxy2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_0u06w")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="area_shape_entered" from="." to="." method="_on_area_shape_entered"]
+[connection signal="area_shape_exited" from="." to="." method="_on_area_shape_exited"]

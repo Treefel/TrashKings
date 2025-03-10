@@ -1,0 +1,60 @@
+[gd_scene load_steps=10 format=3 uid="uid://cgu1m3068kow2"]
+
+[ext_resource type="Script" path="res://Player/Player.gd" id="1_w3ly6"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ak611"]
+
+[sub_resource type="Gradient" id="Gradient_5rfq2"]
+offsets = PackedFloat32Array(0, 0.314465, 0.509434, 0.72327, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.922087, 0.603508, 0.762958, 1, 0.961379, 8.66354e-07, 0.565427, 1, 0.305112, 0.305112, 0.305112, 1, 1, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vsbl2"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_kc2kb"]
+width = 517
+color_ramp = SubResource("Gradient_5rfq2")
+noise = SubResource("FastNoiseLite_vsbl2")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q4aw8"]
+albedo_color = Color(0, 1, 1, 0)
+albedo_texture = SubResource("NoiseTexture2D_kc2kb")
+
+[sub_resource type="BoxMesh" id="BoxMesh_rb2il"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e35lx"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ell1e"]
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0711, 0)
+script = ExtResource("1_w3ly6")
+metadata/_edit_group_ = true
+
+[node name="Model" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.001, 0, 0)
+mesh = SubResource("CapsuleMesh_ak611")
+surface_material_override/0 = SubResource("StandardMaterial3D_q4aw8")
+
+[node name="Direction Test" type="MeshInstance3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.16415e-10, 0, 1)
+mesh = SubResource("BoxMesh_rb2il")
+skeleton = NodePath("../..")
+
+[node name="Interaction Range" type="Area3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.11754)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Model/Interaction Range"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.129864)
+shape = SubResource("BoxShape3D_e35lx")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.34202, 0.939693, 0, -0.939693, 0.34202, -0.0228462, 5.04484, 1.89992)
+fov = 100.0
+
+[node name="PlayerCollision" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_ell1e")
+
+[connection signal="area_exited" from="Model/Interaction Range" to="." method="_on_interactable_area_exited"]
+[connection signal="area_shape_exited" from="Model/Interaction Range" to="." method="_on_interaction_area_exited"]
