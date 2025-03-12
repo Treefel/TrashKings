@@ -76,6 +76,15 @@ operation = 2
 size = Vector3(5.36, 0.5, 22.07)
 metadata/_edit_group_ = true
 
+[node name="Trash" type="CSGBox3D" parent="Neighborhood"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5103, 1.67091, 4.41887)
+use_collision = true
+collision_layer = 3
+collision_mask = 3
+
+[node name="Interactable" parent="Neighborhood/Trash" instance=ExtResource("1_ejt2a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.8833, -1.34285, -2.02165)
+
 [node name="Player" parent="." instance=ExtResource("5_n6gcd")]
 
 [node name="HUD" type="CanvasLayer" parent="."]
@@ -126,3 +135,5 @@ offset_right = -42.0
 offset_bottom = -55.0
 grow_horizontal = 0
 grow_vertical = 0
+
+[connection signal="score_trash" from="Player" to="." method="_on_player_score_trash"]

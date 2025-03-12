@@ -36,7 +36,9 @@ mesh = SubResource("CapsuleMesh_ak611")
 surface_material_override/0 = SubResource("StandardMaterial3D_q4aw8")
 
 [node name="Direction Test" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.16415e-10, 0, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.16415e-10, -0.024539, 1)
+layers = 2
+transparency = 0.76
 mesh = SubResource("BoxMesh_rb2il")
 skeleton = NodePath("../..")
 
@@ -56,5 +58,6 @@ fov = 100.0
 [node name="PlayerCollision" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_ell1e")
 
+[connection signal="area_entered" from="Model/Interaction Range" to="." method="_on_interaction_area_entered"]
 [connection signal="area_exited" from="Model/Interaction Range" to="." method="_on_interactable_area_exited"]
 [connection signal="area_shape_exited" from="Model/Interaction Range" to="." method="_on_interaction_area_exited"]

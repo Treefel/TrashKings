@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+signal score_trash(value)
+
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 var busy = false
@@ -38,6 +40,7 @@ func _physics_process(_delta):
 			if(interactable != null):
 				print("Interacting !!!")
 				print(interactable)
+				score_trash.emit(1);
 			else:
 				print("Nothing here!")
 		
@@ -51,13 +54,12 @@ func _process(_delta):
 		#var check = 0
 	pass
 
-
-func _on_interactable_area_entered(area):
-	interactable = area
-	print("entered PLAYER")
-
-
 func _on_interactable_area_exited(_area):
 	interactable = null
 	print("exited")
 
+
+
+func _on_interaction_area_entered(area):
+	interactable = area
+	print("entered PLAYER")

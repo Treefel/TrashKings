@@ -5,16 +5,16 @@ extends CanvasLayer
 func _ready():
 	pass # Replace with function body.
 
-func update_TrashScore(text):
+func update_trash_score(text):
 	$TrashScore.text = text
 
-func update_TimeRemaining(text):
+func update_time_remaining(text):
 	$TimeRemaining.text = text
 	
-func update_noiseScore(score):
+func update_noise_score(score):
 	$NoiseScore.set_value(score)
 
-func update_TeamNoiseScore(score):
+func update_team_noise_score(score):
 	$TeamNoiseScore.set_value(score)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
