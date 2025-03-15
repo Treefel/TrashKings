@@ -1,11 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://6gljamhhi6r3"]
+[gd_scene load_steps=8 format=3 uid="uid://6gljamhhi6r3"]
 
 [ext_resource type="Texture2D" uid="uid://d3v21w216eeyl" path="res://TestTextures/Neighborhood.png" id="1_6jike"]
-[ext_resource type="Script" uid="uid://db8oyifgfmf63" path="res://GamemodeController.gd" id="1_7hfye"]
+[ext_resource type="Script" path="res://GamemodeController.gd" id="1_7hfye"]
 [ext_resource type="PackedScene" uid="uid://dbg0dqq6y2ca8" path="res://interactable.tscn" id="1_ejt2a"]
-[ext_resource type="Script" uid="uid://dsiyvsr1it2mw" path="res://Ground.gd" id="2_vcjla"]
+[ext_resource type="Script" path="res://Ground.gd" id="2_vcjla"]
 [ext_resource type="PackedScene" uid="uid://cgu1m3068kow2" path="res://player.tscn" id="5_n6gcd"]
-[ext_resource type="Script" uid="uid://6b2jqackqs7a" path="res://HUD.gd" id="6_yemgt"]
+[ext_resource type="Script" path="res://HUD.gd" id="6_yemgt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_785kf"]
 albedo_color = Color(0.6, 0.780392, 1, 0)
@@ -66,6 +66,7 @@ use_collision = true
 
 [node name="BasePlane" type="CSGBox3D" parent="Neighborhood/Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1662, 0)
+snap = 1.0
 size = Vector3(42.9337, 2.4324, 40.9095)
 material = SubResource("StandardMaterial3D_785kf")
 script = ExtResource("2_vcjla")
