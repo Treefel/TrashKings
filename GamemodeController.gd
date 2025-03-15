@@ -12,6 +12,7 @@ func _ready():
 	teamNoiseScore = 0
 	trashScore = 0
 	players[0] = $Player
+	players[0].translate(Vector3(0, 2, 0))
 	for i in range(1,numPlayers):
 		players.append(load("res://player.tscn").instantiate())
 		print("ADDED NEW PLAYER!!!!")

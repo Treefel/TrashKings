@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cgu1m3068kow2"]
+[gd_scene load_steps=11 format=3 uid="uid://cgu1m3068kow2"]
 
 [ext_resource type="Script" uid="uid://cn151v6d1wfq" path="res://Player/Player.gd" id="1_w3ly6"]
 
@@ -23,10 +23,11 @@ albedo_texture = SubResource("NoiseTexture2D_kc2kb")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_e35lx"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_4flbx"]
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ell1e"]
 
 [node name="Player" type="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0711, 0)
 script = ExtResource("1_w3ly6")
 metadata/_edit_group_ = true
 
@@ -51,6 +52,13 @@ collision_mask = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.129864)
 shape = SubResource("BoxShape3D_e35lx")
 
+[node name="FloorChecker" type="Area3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.001, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Model/FloorChecker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.855565, 0)
+shape = SubResource("BoxShape3D_4flbx")
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.34202, 0.939693, 0, -0.939693, 0.34202, -0.0228462, 5.04484, 1.89992)
 fov = 100.0
@@ -61,3 +69,5 @@ shape = SubResource("CapsuleShape3D_ell1e")
 [connection signal="area_entered" from="Model/Interaction Range" to="." method="_on_interaction_area_entered"]
 [connection signal="area_exited" from="Model/Interaction Range" to="." method="_on_interactable_area_exited"]
 [connection signal="area_shape_exited" from="Model/Interaction Range" to="." method="_on_interaction_area_exited"]
+[connection signal="area_entered" from="Model/FloorChecker" to="." method="_on_floor_checker_area_entered"]
+[connection signal="area_exited" from="Model/FloorChecker" to="." method="_on_floor_checker_area_exited"]

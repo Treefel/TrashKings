@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://6gljamhhi6r3"]
+[gd_scene load_steps=10 format=3 uid="uid://6gljamhhi6r3"]
 
 [ext_resource type="Texture2D" uid="uid://d3v21w216eeyl" path="res://TestTextures/Neighborhood.png" id="1_6jike"]
 [ext_resource type="Script" uid="uid://xvvhrgq1hpbc" path="res://GamemodeController.gd" id="1_7hfye"]
@@ -6,6 +6,10 @@
 [ext_resource type="Script" uid="uid://du16vcwh4up4x" path="res://Ground.gd" id="2_vcjla"]
 [ext_resource type="PackedScene" uid="uid://cgu1m3068kow2" path="res://player.tscn" id="5_n6gcd"]
 [ext_resource type="Script" uid="uid://dqjmvf5kbe5y0" path="res://HUD.gd" id="6_yemgt"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1ainy"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1ainy"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_785kf"]
 albedo_color = Color(0.6, 0.780392, 1, 0)
@@ -15,6 +19,21 @@ albedo_texture = ExtResource("1_6jike")
 script = ExtResource("1_7hfye")
 
 [node name="Neighborhood" type="Node" parent="."]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Neighborhood"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.373, 4.89452, 6.40188)
+mass = 0.002
+gravity_scale = 0.024
+
+[node name="Trash" type="CollisionShape3D" parent="Neighborhood/RigidBody3D"]
+shape = SubResource("BoxShape3D_1ainy")
+debug_color = Color(0.827796, 0.381392, 0.287749, 0.42)
+
+[node name="Interactable" parent="Neighborhood/RigidBody3D/Trash" instance=ExtResource("1_ejt2a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Neighborhood/RigidBody3D"]
+mesh = SubResource("BoxMesh_1ainy")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Neighborhood"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 7.44236, 0)
@@ -58,7 +77,6 @@ use_collision = true
 
 [node name="BasePlane" type="CSGBox3D" parent="Neighborhood/Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1662, 0)
-snap = 1.0
 size = Vector3(42.9337, 2.4324, 40.9095)
 material = SubResource("StandardMaterial3D_785kf")
 script = ExtResource("2_vcjla")
@@ -75,15 +93,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.736913, 0.161851, -9.251)
 operation = 2
 size = Vector3(5.36, 0.5, 22.07)
 metadata/_edit_group_ = true
-
-[node name="Trash" type="CSGBox3D" parent="Neighborhood"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5103, 1.67091, 4.41887)
-use_collision = true
-collision_layer = 3
-collision_mask = 3
-
-[node name="Interactable" parent="Neighborhood/Trash" instance=ExtResource("1_ejt2a")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.8833, -1.34285, -2.02165)
 
 [node name="Player" parent="." instance=ExtResource("5_n6gcd")]
 
