@@ -1,15 +1,23 @@
-[gd_scene load_steps=8 format=3 uid="uid://6gljamhhi6r3"]
+[gd_scene load_steps=11 format=3 uid="uid://6gljamhhi6r3"]
 
 [ext_resource type="Texture2D" uid="uid://d3v21w216eeyl" path="res://TestTextures/Neighborhood.png" id="1_6jike"]
-[ext_resource type="Script" path="res://GamemodeController.gd" id="1_7hfye"]
+[ext_resource type="Script" uid="uid://db8oyifgfmf63" path="res://GamemodeController.gd" id="1_7hfye"]
 [ext_resource type="PackedScene" uid="uid://dbg0dqq6y2ca8" path="res://interactable.tscn" id="1_ejt2a"]
-[ext_resource type="Script" path="res://Ground.gd" id="2_vcjla"]
+[ext_resource type="Script" uid="uid://dsiyvsr1it2mw" path="res://Ground.gd" id="2_vcjla"]
 [ext_resource type="PackedScene" uid="uid://cgu1m3068kow2" path="res://player.tscn" id="5_n6gcd"]
-[ext_resource type="Script" path="res://HUD.gd" id="6_yemgt"]
+[ext_resource type="Script" uid="uid://6b2jqackqs7a" path="res://HUD.gd" id="6_yemgt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_785kf"]
 albedo_color = Color(0.6, 0.780392, 1, 0)
 albedo_texture = ExtResource("1_6jike")
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_1ainy"]
+friction = 0.1
+bounce = 0.1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1ainy"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_n6hdu"]
 
 [node name="Game" type="Node"]
 script = ExtResource("1_7hfye")
@@ -22,35 +30,35 @@ shadow_enabled = true
 
 [node name="Houses" type="Node" parent="Neighborhood"]
 
-[node name="CSGBox3D" type="CSGBox3D" parent="Neighborhood/Houses"]
+[node name="HouseBox1" type="CSGBox3D" parent="Neighborhood/Houses"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.64467, 1.53021, -4.37294)
 use_collision = true
 collision_layer = 3
 collision_mask = 3
 size = Vector3(5.55579, 2.95618, 6.10889)
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="Neighborhood/Houses"]
+[node name="HouseBox2" type="CSGBox3D" parent="Neighborhood/Houses"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.58906, 1.55614, -12.6081)
 use_collision = true
 collision_layer = 3
 collision_mask = 3
 size = Vector3(5.55579, 2.95618, 6.10889)
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="Neighborhood/Houses"]
+[node name="HouseBox3" type="CSGBox3D" parent="Neighborhood/Houses"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.76506, 1.58206, -12.2928)
 use_collision = true
 collision_layer = 3
 collision_mask = 3
 size = Vector3(5.55579, 2.95618, 6.10889)
 
-[node name="CSGBox3D4" type="CSGBox3D" parent="Neighborhood/Houses"]
+[node name="HouseBox4" type="CSGBox3D" parent="Neighborhood/Houses"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.71345, 1.57899, -3.60268)
 use_collision = true
 collision_layer = 3
 collision_mask = 3
 size = Vector3(5.55579, 2.95618, 6.10889)
 
-[node name="Interactable" parent="Neighborhood/Houses/CSGBox3D4" instance=ExtResource("1_ejt2a")]
+[node name="Interactable" parent="Neighborhood/Houses/HouseBox4" instance=ExtResource("1_ejt2a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.67023, -0.625465, 2.99995)
 
 [node name="Ground" type="CSGCombiner3D" parent="Neighborhood"]
@@ -58,7 +66,6 @@ use_collision = true
 
 [node name="BasePlane" type="CSGBox3D" parent="Neighborhood/Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1662, 0)
-snap = 1.0
 size = Vector3(42.9337, 2.4324, 40.9095)
 material = SubResource("StandardMaterial3D_785kf")
 script = ExtResource("2_vcjla")
@@ -76,14 +83,24 @@ operation = 2
 size = Vector3(5.36, 0.5, 22.07)
 metadata/_edit_group_ = true
 
-[node name="Trash" type="CSGBox3D" parent="Neighborhood"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5103, 1.67091, 4.41887)
-use_collision = true
+[node name="Trash" type="RigidBody3D" parent="Neighborhood"]
+process_physics_priority = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.34374, 3.0493, 0.893581)
 collision_layer = 3
 collision_mask = 3
+mass = 0.01
+physics_material_override = SubResource("PhysicsMaterial_1ainy")
 
-[node name="Interactable" parent="Neighborhood/Trash" instance=ExtResource("1_ejt2a")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.8833, -1.34285, -2.02165)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Neighborhood/Trash"]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
+shape = SubResource("BoxShape3D_1ainy")
+
+[node name="Interactable" parent="Neighborhood/Trash/CollisionShape3D" instance=ExtResource("1_ejt2a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Neighborhood/Trash/CollisionShape3D"]
+mesh = SubResource("BoxMesh_n6hdu")
+skeleton = NodePath("../..")
 
 [node name="Player" parent="." instance=ExtResource("5_n6gcd")]
 

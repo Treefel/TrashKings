@@ -1,14 +1,14 @@
-CSGBox3D
+MeshInstance3D
+RigidBody3D
 CollisionShape3D
+CSGBox3D
 ProgressBar
 RichTextLabel
 Label
 CanvasLayer
 Area3D
 Node
-MeshInstance3D
 RayCast3D
 CSGCombiner3D
 CSGCylinder3D
 Camera3D
-DirectionalLight3D
