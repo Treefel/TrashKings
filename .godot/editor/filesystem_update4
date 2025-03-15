@@ -1,6 +1,0 @@
-res://level.tscn
-res://interactable.tscn
-res://player.tscn
-res://GamemodeController.gd
-res://Player/Player.gd
-res://HUD.gd

@@ -6,6 +6,7 @@ const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 var busy = false
 var interactable = null
+var floor = null
 var noiseScore = 0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -63,3 +64,13 @@ func _on_interactable_area_exited(_area):
 func _on_interaction_area_entered(area):
 	interactable = area
 	print("entered PLAYER")
+
+
+func _on_floor_checker_area_entered(area: Area3D) -> void:
+	print("new floor boys!")
+	floor = area
+
+
+func _on_floor_checker_area_exited(area: Area3D) -> void:
+	print("floor gone boys!")
+	floor = null
