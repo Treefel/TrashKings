@@ -13,6 +13,7 @@ var floorType = null
 var carryingTrashBool = false
 var pickedUpTrash = null
 var noise_score = 0
+var walking = false
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -48,6 +49,7 @@ func _physics_process(delta):
 			end_walk_anim.emit()
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			velocity.z = move_toward(velocity.z, 0, SPEED)
+			
 		if(interact):
 			if(carryingTrashBool == true):
 				if(pickedUpTrash):
@@ -69,6 +71,9 @@ func _physics_process(delta):
 		#$Model.rotation.y = 2*PI - angle()  + PI/2
 		
 		#rotate_object_local(input_dir.angle(),1)
+		noise_score -= .15
+		if(noise_score < 0):
+			noise_score = 0
 	move_and_slide()
 	if(carryingTrashBool == true):
 		pickedUpTrash.global_position =$"Raccoon/Interaction Range".global_position
@@ -93,9 +98,11 @@ func _on_floor_checker_area_entered(area: Area3D) -> void:
 	floorType = area
 
 
-func _on_floor_checker_area_exited(_area: Area3D) -> void:
-	print("floor gone boys!")
-	floorType = null
+func _on_floor_checker_area_exited(area: Area3D) -> void:
+	#print("floor gone boys!")
+	#if(area == floorType):
+	#floorType = null
+	pass
 
 func pickup_trash(interactable):
 	carryingTrashBool = true
