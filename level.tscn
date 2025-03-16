@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://6gljamhhi6r3"]
+[gd_scene load_steps=11 format=3 uid="uid://6gljamhhi6r3"]
 
 [ext_resource type="Texture2D" uid="uid://d3v21w216eeyl" path="res://TestTextures/Neighborhood.png" id="1_6jike"]
 [ext_resource type="Script" uid="uid://xvvhrgq1hpbc" path="res://GamemodeController.gd" id="1_7hfye"]
@@ -6,7 +6,6 @@
 [ext_resource type="Script" uid="uid://bi82ytpcxgmpj" path="res://trash.gd" id="2_km5ld"]
 [ext_resource type="Script" uid="uid://du16vcwh4up4x" path="res://Ground.gd" id="2_vcjla"]
 [ext_resource type="PackedScene" uid="uid://cgu1m3068kow2" path="res://player.tscn" id="5_n6gcd"]
-[ext_resource type="PackedScene" uid="uid://cjeupvbtp671t" path="res://floor.tscn" id="5_n6hdu"]
 [ext_resource type="Script" uid="uid://dqjmvf5kbe5y0" path="res://HUD.gd" id="6_yemgt"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1ainy"]
@@ -82,6 +81,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.1662, 0)
 size = Vector3(42.9337, 2.4324, 40.9095)
 material = SubResource("StandardMaterial3D_785kf")
 script = ExtResource("2_vcjla")
+metadata/FloorType = 0.0
+
+[node name="Road" type="CSGBox3D" parent="Neighborhood/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.736913, 0.161851, -9.251)
+operation = 2
+size = Vector3(5.36, 0.5, 22.07)
+metadata/_edit_group_ = true
+metadata/FloorType = 2.0
 
 [node name="Sac" type="CSGCylinder3D" parent="Neighborhood/Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.737733, 0.161851, 7.907)
@@ -89,15 +96,27 @@ operation = 2
 radius = 7.81623
 height = 0.5
 metadata/_edit_group_ = true
+metadata/FloorType = 2.0
 
-[node name="Road" type="CSGBox3D" parent="Neighborhood/Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.736913, 0.161851, -9.251)
-operation = 2
-size = Vector3(5.36, 0.5, 22.07)
-metadata/_edit_group_ = true
+[node name="FloorDetection" type="Node" parent="Neighborhood"]
 
-[node name="Floor2" parent="Neighborhood/Ground" instance=ExtResource("5_n6hdu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.40212, -0.210072, 1.2574)
+[node name="Grass" type="Area3D" parent="Neighborhood/FloorDetection"]
+collision_layer = 4
+collision_mask = 4
+metadata/FloorScore = 0.05
+
+[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="Neighborhood/FloorDetection/Grass"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.5, 0.5)
+polygon = PackedVector2Array(3.5, 20, 22, 20, 22, -20, -22, -20, -22, 20, -2, 20, -2, -1, -5, -2.5, -7, -8, -4.75, -13.5, 0.75, -15.75, 6.25, -13.5, 8.5, -8, 6.25, -2.25, 3.5, -1)
+
+[node name="Road" type="Area3D" parent="Neighborhood/FloorDetection"]
+collision_layer = 4
+collision_mask = 4
+metadata/FloorScore = 0.5
+
+[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="Neighborhood/FloorDetection/Road"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.5, 0)
+polygon = PackedVector2Array(-2, -1, -5, -2.5, -7, -8, -4.75, -13.5, 0.75, -15.75, 6.25, -13.5, 8.5, -8, 6.25, -2.25, 3.5, -1, 3.5, 20, -2, 20)
 
 [node name="Player" parent="." instance=ExtResource("5_n6gcd")]
 
@@ -149,5 +168,15 @@ offset_right = -42.0
 offset_bottom = -55.0
 grow_horizontal = 0
 grow_vertical = 0
+
+[node name="GameOverScreen" type="RichTextLabel" parent="HUD"]
+offset_left = 2.0
+offset_top = 4.0
+offset_right = 1151.0
+offset_bottom = 649.0
+theme_override_font_sizes/normal_font_size = 100
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="score_trash" from="Player" to="." method="_on_player_score_trash"]
