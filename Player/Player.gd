@@ -43,7 +43,7 @@ func _physics_process(delta):
 			$Raccoon.rotation.y = atan2(velocity.x,velocity.z)
 			if(floorType != null):
 				
-				print(floorType.get_meta("FloorScore"))
+				#print(floorType.get_meta("FloorScore"))
 				noise_score += float( direction.length()) * floorType.get_meta("FloorScore")
 		else:
 			end_walk_anim.emit()

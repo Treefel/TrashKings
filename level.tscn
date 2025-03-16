@@ -182,8 +182,5 @@ fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="score_trash" from="Player" to="." method="_on_player_score_trash"]
 [connection signal="score_trash" from="Neighborhood/Trash" to="." method="_on_player_score_trash"]
 [connection signal="area_entered" from="Neighborhood/Box/Area3D/CollisionShape3D/Interactable" to="Neighborhood/Trash" method="_on_entered_trash_box"]
-[connection signal="end_walk_anim" from="Player" to="Player/Raccoon" method="end_walk_anim"]
-[connection signal="play_walk_anim" from="Player" to="Player/Raccoon" method="play_walk_anim"]
