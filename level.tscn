@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://6gljamhhi6r3"]
+[gd_scene load_steps=12 format=3 uid="uid://6gljamhhi6r3"]
 
 [ext_resource type="Texture2D" uid="uid://d3v21w216eeyl" path="res://TestTextures/Neighborhood.png" id="1_6jike"]
 [ext_resource type="Script" uid="uid://xvvhrgq1hpbc" path="res://GamemodeController.gd" id="1_7hfye"]
 [ext_resource type="PackedScene" uid="uid://dbg0dqq6y2ca8" path="res://interactable.tscn" id="1_ejt2a"]
+[ext_resource type="Script" uid="uid://bi82ytpcxgmpj" path="res://trash.gd" id="2_km5ld"]
 [ext_resource type="Script" uid="uid://du16vcwh4up4x" path="res://Ground.gd" id="2_vcjla"]
 [ext_resource type="PackedScene" uid="uid://cgu1m3068kow2" path="res://player.tscn" id="5_n6gcd"]
 [ext_resource type="PackedScene" uid="uid://cjeupvbtp671t" path="res://floor.tscn" id="5_n6hdu"]
@@ -22,17 +23,18 @@ script = ExtResource("1_7hfye")
 [node name="Neighborhood" type="Node" parent="."]
 
 [node name="RigidBody3D" type="RigidBody3D" parent="Neighborhood"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.373, 4.89452, 6.40188)
-mass = 0.096
-gravity_scale = 0.024
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.373, 2.96944, 6.40188)
 
 [node name="Trash" type="CollisionShape3D" parent="Neighborhood/RigidBody3D"]
+transform = Transform3D(0.58, 0, 0, 0, 0.58, 0, 0, 0, 0.58, 0, 0, 0)
 shape = SubResource("BoxShape3D_1ainy")
 debug_color = Color(0.827796, 0.381392, 0.287749, 0.42)
+script = ExtResource("2_km5ld")
 
 [node name="Interactable" parent="Neighborhood/RigidBody3D/Trash" instance=ExtResource("1_ejt2a")]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Neighborhood/RigidBody3D"]
+transform = Transform3D(0.58, 0, 0, 0, 0.58, 0, 0, 0, 0.58, 0, 0, 0)
 mesh = SubResource("BoxMesh_1ainy")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Neighborhood"]

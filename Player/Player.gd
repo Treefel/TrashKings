@@ -1,12 +1,15 @@
 extends CharacterBody3D
 
 signal score_trash(value)
+#signal pickup_trash()
 
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 var busy = false
 var interactable = null
 var floorType = null
+var carryingTrashBool = false
+var pickedUpTrash = null
 var noise_score = 0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -42,10 +45,19 @@ func _physics_process(delta):
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			velocity.z = move_toward(velocity.z, 0, SPEED)
 		if(interact):
-			if(interactable != null):
+			if(carryingTrashBool == true):
+				if(pickedUpTrash):
+					drop_trash(interactable)
+					print("dropping")
+			elif(interactable != null):
 				print("Interacting !!!")
 				print(interactable)
-				score_trash.emit(1);
+				if(carryingTrashBool == false):
+					if(interactable.get_parent().get_name() == "Trash"):
+						print("attempting pickup")
+						pickup_trash(interactable)
+						#pickup_trash.emit()
+				score_trash.emit(1)
 			else:
 				print("Nothing here!")
 		
@@ -54,6 +66,8 @@ func _physics_process(delta):
 		
 		#rotate_object_local(input_dir.angle(),1)
 	move_and_slide()
+	if(carryingTrashBool == true):
+		pickedUpTrash.global_position =$"Model/Interaction Range".global_position
 	
 func _process(_delta):
 #if Input.is_action_just_pressed("ui_accept"):
@@ -78,3 +92,17 @@ func _on_floor_checker_area_entered(area: Area3D) -> void:
 func _on_floor_checker_area_exited(_area: Area3D) -> void:
 	print("floor gone boys!")
 	floorType = null
+
+func pickup_trash(interactable):
+	carryingTrashBool = true
+	pickedUpTrash = interactable.get_parent().get_parent()
+	if(pickedUpTrash == null):
+		print("doesnt exist 93")
+	pickedUpTrash.gravity_scale = 0
+	pickedUpTrash.translate(Vector3(0,0.5,0))
+
+func drop_trash(_interactable):
+	pickedUpTrash.gravity_scale = 1
+	carryingTrashBool = false
+	pickedUpTrash = null
+	
