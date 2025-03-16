@@ -1,6 +1,8 @@
 extends CharacterBody3D
 
-signal score_trash(value)
+#signal score_trash(value)
+signal play_walk_anim()
+signal end_walk_anim()
 #signal pickup_trash()
 
 const SPEED = 5.0
@@ -35,14 +37,16 @@ func _physics_process(delta):
 		var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 		var interact = (Input.is_action_just_pressed("ui_accept"))
 		if direction:
+			play_walk_anim.emit()
 			velocity.x = direction.x * SPEED
 			velocity.z = direction.z * SPEED
-			$Model.rotation.y = atan2(velocity.x,velocity.z)
+			$Raccoon.rotation.y = atan2(velocity.x,velocity.z)
 			if(floorType != null):
 				
 				print(floorType.get_meta("FloorScore"))
 				noise_score += float( direction.length()) * floorType.get_meta("FloorScore")
 		else:
+			end_walk_anim.emit()
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			velocity.z = move_toward(velocity.z, 0, SPEED)
 			
@@ -55,11 +59,11 @@ func _physics_process(delta):
 				print("Interacting !!!")
 				print(interactable)
 				if(carryingTrashBool == false):
-					if(interactable.get_parent().get_name() == "Trash"):
+					if(interactable.get_parent().get_parent().get_name() == "Trash"):
 						print("attempting pickup")
 						pickup_trash(interactable)
 						#pickup_trash.emit()
-				score_trash.emit(1)
+				
 			else:
 				print("Nothing here!")
 		
@@ -72,7 +76,7 @@ func _physics_process(delta):
 			noise_score = 0
 	move_and_slide()
 	if(carryingTrashBool == true):
-		pickedUpTrash.global_position =$"Model/Interaction Range".global_position
+		pickedUpTrash.global_position =$"Raccoon/Interaction Range".global_position
 	
 func _process(_delta):
 #if Input.is_action_just_pressed("ui_accept"):
