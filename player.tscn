@@ -53,10 +53,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.129864)
 shape = SubResource("BoxShape3D_e35lx")
 
 [node name="FloorChecker" type="Area3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.001, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.825924, 0)
+collision_layer = 4
+collision_mask = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Model/FloorChecker"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.855565, 0)
 shape = SubResource("BoxShape3D_4flbx")
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -68,6 +69,5 @@ shape = SubResource("CapsuleShape3D_ell1e")
 
 [connection signal="area_entered" from="Model/Interaction Range" to="." method="_on_interaction_area_entered"]
 [connection signal="area_exited" from="Model/Interaction Range" to="." method="_on_interactable_area_exited"]
-[connection signal="area_shape_exited" from="Model/Interaction Range" to="." method="_on_interaction_area_exited"]
 [connection signal="area_entered" from="Model/FloorChecker" to="." method="_on_floor_checker_area_entered"]
 [connection signal="area_exited" from="Model/FloorChecker" to="." method="_on_floor_checker_area_exited"]

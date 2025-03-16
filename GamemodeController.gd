@@ -29,12 +29,14 @@ func _process(_delta):
 	$HUD.update_trash_score(str(trashScore))
 	$HUD.update_team_noise_score(float(teamNoiseScore))
 	$HUD.update_time_remaining(str(timeRemaining))
+	$HUD.update_noise_score(players[0].noise_score)
 	#print(len(players))
-
-func update_team_noise(scores):
+	update_team_noise()
+	
+func update_team_noise():
+	teamNoiseScore = 0
 	for player in players:
-		teamNoiseScore += player.noiseScore
-		teamNoiseScore -= 3
+		teamNoiseScore += player.noise_score
 		
 
 func update_score(value):

@@ -6,8 +6,8 @@ const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 var busy = false
 var interactable = null
-var floor = null
-var noiseScore = 0
+var floorType = null
+var noise_score = 0
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -15,10 +15,10 @@ func _ready():
 	set_process(true)
 	pass
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	## Add the gravity.
-	#if not is_on_floor():
-		#velocity.y -= gravity * delta
+	if not is_on_floor():
+		velocity.y -= gravity * delta
 #
 	### Handle jump.
 	#if Input.is_action_just_pressed("ui_accept") and is_on_floor():
@@ -34,6 +34,10 @@ func _physics_process(_delta):
 			velocity.x = direction.x * SPEED
 			velocity.z = direction.z * SPEED
 			$Model.rotation.y = atan2(velocity.x,velocity.z)
+			if(floorType != null):
+				
+				print(floorType.get_meta("FloorScore"))
+				noise_score += float( direction.length()) * floorType.get_meta("FloorScore")
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			velocity.z = move_toward(velocity.z, 0, SPEED)
@@ -45,6 +49,7 @@ func _physics_process(_delta):
 			else:
 				print("Nothing here!")
 		
+		#noise_score -= 1;
 		#$Model.rotation.y = 2*PI - angle()  + PI/2
 		
 		#rotate_object_local(input_dir.angle(),1)
@@ -57,20 +62,19 @@ func _process(_delta):
 
 func _on_interactable_area_exited(_area):
 	interactable = null
-	print("exited")
-
+	print("Interaction exited")
 
 
 func _on_interaction_area_entered(area):
 	interactable = area
-	print("entered PLAYER")
+	print("Interaction entered")
 
 
 func _on_floor_checker_area_entered(area: Area3D) -> void:
 	print("new floor boys!")
-	floor = area
+	floorType = area
 
 
-func _on_floor_checker_area_exited(area: Area3D) -> void:
+func _on_floor_checker_area_exited(_area: Area3D) -> void:
 	print("floor gone boys!")
-	floor = null
+	floorType = null
