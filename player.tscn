@@ -1,6 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://cgu1m3068kow2"]
+[gd_scene load_steps=12 format=3 uid="uid://cgu1m3068kow2"]
 
 [ext_resource type="Script" uid="uid://cn151v6d1wfq" path="res://Player/Player.gd" id="1_w3ly6"]
+[ext_resource type="PackedScene" uid="uid://b7bbss3psmin3" path="res://raccoon.tscn" id="2_onrkg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rb2il"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_e35lx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4flbx"]
+size = Vector3(1, 1, 2.78027)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ak611"]
 
@@ -19,55 +27,58 @@ noise = SubResource("FastNoiseLite_vsbl2")
 albedo_color = Color(0, 1, 1, 0)
 albedo_texture = SubResource("NoiseTexture2D_kc2kb")
 
-[sub_resource type="BoxMesh" id="BoxMesh_rb2il"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_e35lx"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_4flbx"]
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ell1e"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_onrkg"]
+radius = 0.6
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_w3ly6")
 metadata/_edit_group_ = true
 
-[node name="Model" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.001, 0, 0)
-mesh = SubResource("CapsuleMesh_ak611")
-surface_material_override/0 = SubResource("StandardMaterial3D_q4aw8")
+[node name="Raccoon" parent="." instance=ExtResource("2_onrkg")]
+transform = Transform3D(0.341518, 0, 0, 0, 0.341518, 0, 0, 0, 0.341518, 0, -0.0707609, 0)
 
-[node name="Direction Test" type="MeshInstance3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.16415e-10, -0.024539, 1)
+[node name="Direction Test" type="MeshInstance3D" parent="Raccoon"]
+transform = Transform3D(2.18573, 0, 0, 0, 2.18573, 0, 0, 0, 2.18573, 0.00217372, -0.565685, 4.55804)
 layers = 2
 transparency = 0.76
 mesh = SubResource("BoxMesh_rb2il")
 skeleton = NodePath("../..")
 
-[node name="Interaction Range" type="Area3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.11754)
+[node name="Interaction Range" type="Area3D" parent="Raccoon"]
+transform = Transform3D(2.18573, 0, 0, 0, 2.18573, 0, 0, 0, 2.18573, 0.00217372, -0.512049, 4.81495)
 collision_layer = 2
 collision_mask = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Model/Interaction Range"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Raccoon/Interaction Range"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.129864)
 shape = SubResource("BoxShape3D_e35lx")
 
-[node name="FloorChecker" type="Area3D" parent="Model"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.825924, 0)
+[node name="FloorChecker" type="Area3D" parent="Raccoon"]
+transform = Transform3D(2.18573, 0, 0, 0, 2.18573, 0, 0, 0, 2.18573, 0.00217372, -1.84761, 2.37231)
 collision_layer = 4
 collision_mask = 4
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Model/FloorChecker"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Raccoon/FloorChecker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.890137)
 shape = SubResource("BoxShape3D_4flbx")
+
+[node name="Model" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.001, 0, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_ak611")
+surface_material_override/0 = SubResource("StandardMaterial3D_q4aw8")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.34202, 0.939693, 0, -0.939693, 0.34202, -0.0228462, 5.04484, 1.89992)
 fov = 100.0
 
 [node name="PlayerCollision" type="CollisionShape3D" parent="."]
-shape = SubResource("CapsuleShape3D_ell1e")
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.321, 0.16)
+shape = SubResource("CapsuleShape3D_onrkg")
 
-[connection signal="area_entered" from="Model/Interaction Range" to="." method="_on_interaction_area_entered"]
-[connection signal="area_exited" from="Model/Interaction Range" to="." method="_on_interactable_area_exited"]
-[connection signal="area_entered" from="Model/FloorChecker" to="." method="_on_floor_checker_area_entered"]
-[connection signal="area_exited" from="Model/FloorChecker" to="." method="_on_floor_checker_area_exited"]
+[connection signal="end_walk_anim" from="." to="Raccoon" method="end_walk_anim"]
+[connection signal="play_walk_anim" from="." to="Raccoon" method="play_walk_anim"]
+[connection signal="area_entered" from="Raccoon/Interaction Range" to="." method="_on_interaction_area_entered"]
+[connection signal="area_exited" from="Raccoon/Interaction Range" to="." method="_on_interactable_area_exited"]
+[connection signal="area_entered" from="Raccoon/FloorChecker" to="." method="_on_floor_checker_area_entered"]
+[connection signal="area_exited" from="Raccoon/FloorChecker" to="." method="_on_floor_checker_area_exited"]

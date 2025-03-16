@@ -3,39 +3,27 @@
 [ext_resource type="Texture2D" uid="uid://d3v21w216eeyl" path="res://TestTextures/Neighborhood.png" id="1_6jike"]
 [ext_resource type="Script" uid="uid://xvvhrgq1hpbc" path="res://GamemodeController.gd" id="1_7hfye"]
 [ext_resource type="PackedScene" uid="uid://dbg0dqq6y2ca8" path="res://interactable.tscn" id="1_ejt2a"]
-[ext_resource type="Script" uid="uid://bi82ytpcxgmpj" path="res://trash.gd" id="2_km5ld"]
+[ext_resource type="PackedScene" uid="uid://dvyc7mrwcd2ta" path="res://trash.tscn" id="2_i2t4f"]
 [ext_resource type="Script" uid="uid://du16vcwh4up4x" path="res://Ground.gd" id="2_vcjla"]
 [ext_resource type="PackedScene" uid="uid://cgu1m3068kow2" path="res://player.tscn" id="5_n6gcd"]
 [ext_resource type="PackedScene" uid="uid://cjeupvbtp671t" path="res://floor.tscn" id="5_n6hdu"]
 [ext_resource type="Script" uid="uid://dqjmvf5kbe5y0" path="res://HUD.gd" id="6_yemgt"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_1ainy"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_1ainy"]
+[ext_resource type="ArrayMesh" uid="uid://co0ufvnb33yvf" path="res://Models/BoxTrash/BoxTrash.obj" id="7_i2t4f"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_785kf"]
 albedo_color = Color(0.6, 0.780392, 1, 0)
 albedo_texture = ExtResource("1_6jike")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i2t4f"]
+size = Vector3(2.4624, 1.42786, 2.15979)
 
 [node name="Game" type="Node"]
 script = ExtResource("1_7hfye")
 
 [node name="Neighborhood" type="Node" parent="."]
 
-[node name="RigidBody3D" type="RigidBody3D" parent="Neighborhood"]
+[node name="Trash" parent="Neighborhood" instance=ExtResource("2_i2t4f")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.373, 2.96944, 6.40188)
-
-[node name="Trash" type="CollisionShape3D" parent="Neighborhood/RigidBody3D"]
-transform = Transform3D(0.58, 0, 0, 0, 0.58, 0, 0, 0, 0.58, 0, 0, 0)
-shape = SubResource("BoxShape3D_1ainy")
-debug_color = Color(0.827796, 0.381392, 0.287749, 0.42)
-script = ExtResource("2_km5ld")
-
-[node name="Interactable" parent="Neighborhood/RigidBody3D/Trash" instance=ExtResource("1_ejt2a")]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Neighborhood/RigidBody3D"]
-transform = Transform3D(0.58, 0, 0, 0, 0.58, 0, 0, 0, 0.58, 0, 0, 0)
-mesh = SubResource("BoxMesh_1ainy")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Neighborhood"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 7.44236, 0)
@@ -99,6 +87,21 @@ metadata/_edit_group_ = true
 [node name="Floor2" parent="Neighborhood/Ground" instance=ExtResource("5_n6hdu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.40212, -0.210072, 1.2574)
 
+[node name="Box" type="MeshInstance3D" parent="Neighborhood"]
+transform = Transform3D(1.09374, 0, 0, 0, 1, 0, 0, 0, 1.16433, 9.57319, 0.0755877, 4.90211)
+mesh = ExtResource("7_i2t4f")
+skeleton = NodePath("")
+
+[node name="Area3D" type="Area3D" parent="Neighborhood/Box"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Neighborhood/Box/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00146484, -0.0634155, 0.00164795)
+shape = SubResource("BoxShape3D_i2t4f")
+
+[node name="Interactable" parent="Neighborhood/Box/Area3D/CollisionShape3D" instance=ExtResource("1_ejt2a")]
+collision_layer = 8
+collision_mask = 8
+
 [node name="Player" parent="." instance=ExtResource("5_n6gcd")]
 
 [node name="HUD" type="CanvasLayer" parent="."]
@@ -150,4 +153,7 @@ offset_bottom = -55.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[connection signal="score_trash" from="Player" to="." method="_on_player_score_trash"]
+[connection signal="score_trash" from="Neighborhood/Trash" to="." method="_on_player_score_trash"]
+[connection signal="area_entered" from="Neighborhood/Box/Area3D/CollisionShape3D/Interactable" to="Neighborhood/Trash" method="_on_entered_trash_box"]
+[connection signal="end_walk_anim" from="Player" to="Player/Raccoon" method="end_walk_anim"]
+[connection signal="play_walk_anim" from="Player" to="Player/Raccoon" method="play_walk_anim"]

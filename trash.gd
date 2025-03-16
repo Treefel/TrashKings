@@ -1,8 +1,11 @@
-extends CollisionShape3D
+extends RigidBody3D
+
+signal score_trash(value)
 
 var interactable = null
 
 
-func _on_player_pickup_trash() -> void:
-	print("trash picked up")
-	pass # Replace with function body.
+func _on_entered_trash_box(area: Area3D) -> void:
+	print("trash has touched box")
+	score_trash.emit(1)
+	
