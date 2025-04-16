@@ -3,9 +3,10 @@ extends Node
 var teamNoiseScore
 var trashScore
 var timeRemaining
+var tempColor
 var numPlayers = 1
 var players = [1]
-var gameState = 0
+var gameState = 3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -33,6 +34,7 @@ func _process(delta):
 	#print(len(players))
 	update_team_noise()
 	
+	
 	if(teamNoiseScore >= 100):
 		gameState = -1
 	if(timeRemaining <= 0):
@@ -44,13 +46,19 @@ func _process(delta):
 		$HUD/TextureRect.texture = load("res://TestTextures/TrashKings_DomesticatedScreen.png")
 	if(gameState == 1):
 		$HUD/TextureRect.texture = load("res://TestTextures/TrashKings_KingScreen.png")
+	if(gameState == 3):
+		$HUD/TextureRect.texture = load("res://TestTextures/TrashKings_InstructionsScreen.png")
+		if (Input.is_key_pressed(KEY_SPACE)):
+			print("close intrusctions")
+			$HUD/TextureRect.texture = null
+			gameState = 0
 	timeRemaining -= delta	
 	
 func update_team_noise():
 	teamNoiseScore = 0
 	for player in players:
 		teamNoiseScore += player.noise_score
-		
+	
 
 func update_score(value):
 	trashScore += value
@@ -61,3 +69,5 @@ func update_score(value):
 func _on_player_score_trash(value):
 	update_score(value)
 	pass # Replace with function body.
+	
+ 

@@ -21,8 +21,16 @@ script = ExtResource("1_7hfye")
 
 [node name="Neighborhood" type="Node" parent="."]
 
-[node name="Trash" parent="Neighborhood" instance=ExtResource("2_i2t4f")]
+[node name="TrashFolder" type="Node" parent="Neighborhood"]
+
+[node name="Trash" parent="Neighborhood/TrashFolder" instance=ExtResource("2_i2t4f")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.373, 2.96944, 6.40188)
+
+[node name="Trash2" parent="Neighborhood/TrashFolder" instance=ExtResource("2_i2t4f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.40017, 5.93888, 11.4869)
+
+[node name="Trash3" parent="Neighborhood/TrashFolder" instance=ExtResource("2_i2t4f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.6136, 1.39115, -1.82669)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Neighborhood"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 7.44236, 0)
@@ -152,14 +160,16 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -206.0
-offset_top = -44.0
-offset_right = -82.0
-offset_bottom = -17.0
+offset_left = -44.0
+offset_top = -165.0
+offset_right = -20.0
+offset_bottom = -13.0
 grow_horizontal = 0
 grow_vertical = 0
+fill_mode = 3
 
 [node name="TeamNoiseScore" type="ProgressBar" parent="HUD"]
+visible = false
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -195,5 +205,7 @@ grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 2
 
-[connection signal="score_trash" from="Neighborhood/Trash" to="." method="_on_player_score_trash"]
-[connection signal="area_entered" from="Neighborhood/Box/Area3D/CollisionShape3D/Interactable" to="Neighborhood/Trash" method="_on_entered_trash_box"]
+[connection signal="score_trash" from="Neighborhood/TrashFolder/Trash" to="." method="_on_player_score_trash"]
+[connection signal="score_trash" from="Neighborhood/TrashFolder/Trash2" to="." method="_on_player_score_trash"]
+[connection signal="score_trash" from="Neighborhood/TrashFolder/Trash3" to="." method="_on_player_score_trash"]
+[connection signal="area_entered" from="Neighborhood/Box/Area3D/CollisionShape3D/Interactable" to="Neighborhood/TrashFolder/Trash" method="_on_entered_trash_box"]

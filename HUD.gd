@@ -6,7 +6,7 @@ func _ready():
 	pass # Replace with function body.
 
 func update_trash_score(text):
-	$TrashScore.text = text
+	$TrashScore.text = text + "/3"
 
 func update_time_remaining(text):
 	$TimeRemaining.text = text

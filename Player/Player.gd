@@ -59,7 +59,7 @@ func _physics_process(delta):
 				print("Interacting !!!")
 				print(interactable)
 				if(carryingTrashBool == false):
-					if(interactable.get_parent().get_parent().get_name() == "Trash"):
+					if(interactable.get_parent().get_parent().get_name().contains("Trash")):
 						print("attempting pickup")
 						pickup_trash(interactable)
 						#pickup_trash.emit()
@@ -108,7 +108,7 @@ func pickup_trash(interactable):
 	carryingTrashBool = true
 	pickedUpTrash = interactable.get_parent().get_parent()
 	if(pickedUpTrash == null):
-		print("doesnt exist 93")
+		print("doesnt exist 111")
 	pickedUpTrash.gravity_scale = 0
 	pickedUpTrash.translate(Vector3(0,0.5,0))
 
