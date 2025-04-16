@@ -5,7 +5,7 @@ var trashScore
 var timeRemaining
 var numPlayers = 1
 var players = [1]
-
+var gameState = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -32,11 +32,18 @@ func _process(delta):
 	$HUD.update_noise_score(players[0].noise_score)
 	#print(len(players))
 	update_team_noise()
+	
 	if(teamNoiseScore >= 100):
-		$HUD/GameOverScreen.text = "Game Over"
+		gameState = -1
 	if(timeRemaining <= 0):
-		$HUD/GameOverScreen.text = "Game Over"
-		
+		gameState = -1
+	if(trashScore >= 3):
+		gameState = 1
+	
+	if(gameState == -1):
+		$HUD/TextureRect.texture = load("res://TestTextures/TrashKings_DomesticatedScreen.png")
+	if(gameState == 1):
+		$HUD/TextureRect.texture = load("res://TestTextures/TrashKings_KingScreen.png")
 	timeRemaining -= delta	
 	
 func update_team_noise():
